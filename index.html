@@ -37,14 +37,14 @@
         .dept-icon { width: 26px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 9px; font-weight: 900; color: white; }
     </style>
 </head>
-<body class="light">
+<body class="dark">
 
     <div id="mobile-overlay" onclick="toggleSidebar()" class="hidden fixed inset-0 bg-black/60 z-40"></div>
 
-    <aside id="sidebar" class="sidebar light p-6 flex flex-col">
+    <aside id="sidebar" class="sidebar dark p-6 flex flex-col">
         <div class="flex justify-between items-start mb-8">
             <div>
-                <div class="brand-main text-3xl font-black tracking-tighter"><span style="color: var(--maroon);">INN</span><span style="color: var(--navy);">-Sync</span></div>
+                <div class="brand-main text-3xl font-black tracking-tighter"><span style="color: var(--maroon);">INN</span><span style="color: #4b6cb7;">-Sync</span></div>
                 <div class="text-[10px] font-bold uppercase tracking-widest opacity-50">Schedule Viewer</div>
             </div>
             <button onclick="toggleSidebar()" class="lg:hidden text-2xl mt-2">✕</button>
@@ -52,7 +52,7 @@
 
         <div class="space-y-4 mb-8">
             <button onclick="toggleDarkMode()" class="w-full py-2.5 px-4 rounded-lg border border-slate-300 text-[10px] font-black tracking-widest flex justify-between items-center uppercase">
-                <span>Theme</span> <span id="theme-icon">🌙</span>
+                <span>Theme</span> <span id="theme-icon">☀️</span>
             </button>
             <div class="relative group">
                 <input type="text" id="globalSearch" placeholder="Search Teacher..." class="search-input" oninput="render()">
@@ -78,23 +78,23 @@
     <script>
         let schoolData = [];
         let visibleRooms = new Set();
-        let isDarkMode = false;
+        // UPDATED: Defaulted logic to true
+        let isDarkMode = true;
         const blocks = ["B1", "B2", "B3", "B4"];
 
-        // Updated Department Codes & Colors
         const deptColors = {
-            "AP": { bg: "#ec4899", label: "AP" }, // Performing Arts
-            "AV": { bg: "#d946ef", label: "AV" }, // Visual Arts
-            "B":  { bg: "#0ea5e9", label: "B" },  // Business
-            "CTE":{ bg: "#f43f5e", label: "CTE"}, // CTE
-            "E":  { bg: "#8b5cf6", label: "E" },  // English
-            "H":  { bg: "#f59e0b", label: "H" },  // History
-            "L":  { bg: "#14b8a6", label: "L" },  // Foreign Language
-            "M":  { bg: "#3b82f6", label: "M" },  // Math
-            "P":  { bg: "#64748b", label: "P" },  // PE
-            "S":  { bg: "#10b981", label: "S" },  // Science
-            "WL": { bg: "#f97316", label: "WL" }, // ESOL
-            "SPE":{ bg: "#6366f1", label: "SPE"}, // SPED
+            "AP": { bg: "#ec4899", label: "AP" },
+            "AV": { bg: "#d946ef", label: "AV" },
+            "B":  { bg: "#0ea5e9", label: "B" },
+            "CTE":{ bg: "#f43f5e", label: "CTE"},
+            "E":  { bg: "#8b5cf6", label: "E" },
+            "H":  { bg: "#f59e0b", label: "H" },
+            "L":  { bg: "#14b8a6", label: "L" },
+            "M":  { bg: "#3b82f6", label: "M" },
+            "P":  { bg: "#64748b", label: "P" },
+            "S":  { bg: "#10b981", label: "S" },
+            "WL": { bg: "#f97316", label: "WL" },
+            "SPE":{ bg: "#6366f1", label: "SPE"},
             "Vacant": { bg: "#e2e8f0", label: "-" }
         };
 
@@ -123,7 +123,6 @@
             for (let i = 1; i < lines.length; i++) {
                 if (!lines[i].trim()) continue;
                 const c = lines[i].split(',');
-                // CSV Structure: Room, Wing, Ext, [T, CoT, C, D] x 4
                 schoolData.push({
                     id: c[0], wing: c[1], ext: c[2],
                     schedule: {
@@ -147,7 +146,6 @@
             const filtered = schoolData.filter(r => {
                 if (!visibleRooms.has(r.id)) return false;
                 if (search === "") return true;
-                // Search both Teacher (t) and Co-Teacher (cot)
                 return activeBlocks.some(b => 
                     r.schedule[b].t.toLowerCase().includes(search) || 
                     (r.schedule[b].cot && r.schedule[b].cot.toLowerCase().includes(search))
@@ -162,7 +160,6 @@
 
                 const rows = activeBlocks.map(b => {
                     const block = r.schedule[b];
-                    const isVac = block.t.toLowerCase() === 'vacant';
                     const dept = deptColors[block.d] || deptColors["Vacant"];
                     const coTeacherStr = block.cot ? ` / ${block.cot}` : '';
                     
@@ -215,7 +212,7 @@
             });
         }
         function resetAllFilters() { visibleRooms = new Set(schoolData.map(r => r.id)); document.querySelectorAll('.block-pill').forEach(p => p.checked = true); document.querySelectorAll('#wingAccordion input[type="checkbox"]').forEach(c => (c.checked = true)); render(); }
-        function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.className = isDarkMode ? 'dark' : 'light'; document.getElementById('sidebar').className = `sidebar ${isDarkMode ? 'dark' : 'light'} p-6 flex flex-col`; render(); }
+        function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.className = isDarkMode ? 'dark' : 'light'; document.getElementById('sidebar').className = `sidebar ${isDarkMode ? 'dark' : 'light'} p-6 flex flex-col`; document.getElementById('theme-icon').innerText = isDarkMode ? '☀️' : '🌙'; render(); }
         function toggleAllInWing(wingName, isChecked) { schoolData.filter(r => r.wing === wingName).forEach(r => { isChecked ? visibleRooms.add(r.id) : visibleRooms.delete(r.id); if(document.getElementById(`check-${r.id}`)) document.getElementById(`check-${r.id}`).checked = isChecked; }); render(); }
         function updateVisibility(id, v) { v ? visibleRooms.add(id) : visibleRooms.delete(id); render(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('mobile-overlay').classList.toggle('hidden'); }
