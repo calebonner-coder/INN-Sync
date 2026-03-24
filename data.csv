@@ -1,0 +1,41 @@
+Room,Wing,Ext,B1_T,B1_CoT,B1_C,B1_D,B2_T,B2_CoT,B2_C,B2_D,B3_T,B3_CoT,B3_C,B3_D,B4_T,B4_CoT,B4_C,B4_D
+101,North,4401,Bonner,Jordan,Anatomy,S,Bonner,,Anatomy,S,Vacant,,,Bonner,,Biology,S
+102,North,4402,Smith,,Algebra I,M,Smith,,Algebra I,M,Smith,,Algebra II,M,Vacant,,,
+103,North,4403,Davis,,Chemistry,S,Vacant,,,Davis,,AP Chem,S,Davis,,Chemistry,S
+104,North,4404,Vacant,,,Miller,,Physics,S,Miller,,Physics,S,Miller,,AP Physics,S
+105,North,4405,Wilson,,English 1,E,Wilson,,English 1,E,Vacant,,,Wilson,,English 2,E
+106,North,4406,Brown,,World Hist,H,Brown,,US Hist,H,Brown,,US Hist,H,Vacant,,,
+107,North,4407,Garcia,,Spanish 1,L,Garcia,,Spanish 2,L,Vacant,,,Garcia,,Spanish 1,L
+108,North,4408,Lee,,Art I,AV,Lee,,Art II,AV,Lee,,Ceramics,AV,Vacant,,,
+109,North,4409,Vacant,,,White,,Marketing,B,White,,Business,B,White,,Finance,B
+110,North,4410,Clark,,PE I,P,Clark,,PE II,P,Vacant,,,Clark,,Weightlifting,P
+201,South,4501,Taylor,,Biology,S,Taylor,,Biology,S,Taylor,,Biology,S,Vacant,,,
+202,South,4502,Vacant,,,Anderson,,Geometry,M,Anderson,,Geometry,M,Anderson,,Geometry,M
+203,South,4503,Thomas,,English 3,E,Vacant,,,Thomas,,English 3,E,Thomas,,AP Lang,E
+204,South,4504,Jackson,,US Hist,H,Jackson,,Psychology,H,Jackson,,Psychology,H,Vacant,,,
+205,South,4505,Harris,,Band,AP,Harris,,Chorus,AP,Vacant,,,Harris,,Orchestra,AP
+206,South,4506,Vacant,,,Martin,,Digital Media,CTE,Martin,,Web Design,CTE,Martin,,Coding,CTE
+207,South,4507,Thompson,,ESOL,WL,Thompson,,ESOL,WL,Thompson,,ESOL,WL,Vacant,,,
+208,South,4508,Moore,,Health,P,Vacant,,,Moore,,PE I,P,Moore,,PE II,P
+209,South,4509,Hill,,Civics,H,Hill,,Govt,H,Hill,,Govt,H,Vacant,,,
+210,South,4510,Scott,,Chemistry,S,Scott,,Chemistry,S,Vacant,,,Scott,,Chemistry,S
+301,East,4601,Adams,,Anatomy,S,Adams,,Anatomy,S,Vacant,,,Adams,,Anatomy,S
+302,East,4602,Baker,,Algebra 1,M,Baker,,Algebra 1,M,Baker,,Algebra 1,M,Vacant,,,
+303,East,4603,Vacant,,,Carter,,English 4,E,Carter,,English 4,E,Carter,,English 4,E
+304,East,4604,Evans,,World Hist,H,Evans,,World Hist,H,Vacant,,,Evans,,World Hist,H
+305,East,4605,King,,Physics,S,King,,Physics,S,King,,Physics,S,Vacant,,,
+306,East,4606,Vacant,,,Wright,,French 1,L,Wright,,French 2,L,Wright,,French 1,L
+307,East,4607,Lopez,,Art I,AV,Lopez,,Art I,AV,Vacant,,,Lopez,,Art I,AV
+308,East,4608,Hill,,Accounting,B,Hill,,Business,B,Hill,,Business,B,Vacant,,,
+309,East,4609,Vacant,,,Young,,Sociology,H,Young,,Sociology,H,Young,,Sociology,H
+310,East,4610,Green,,PE I,P,Green,,PE I,P,Vacant,,,Green,,PE I,P
+401,West,4701,Hall,,Bio 2,S,Hall,,Bio 2,S,Hall,,Bio 2,S,Vacant,,,
+402,West,4702,Vacant,,,Allen,,Alg 2,M,Allen,,Alg 2,M,Allen,,Alg 2,M
+403,West,4703,Nelson,,Eng 2,E,Nelson,,Eng 2,E,Vacant,,,Nelson,,Eng 2,E
+404,West,4704,Baker,,US Hist,H,Baker,,Civics,H,Baker,,Civics,H,Vacant,,,
+405,West,4705,King,,Earth Sci,S,King,,Earth Sci,S,Vacant,,,King,,Earth Sci,S
+406,West,4706,Vacant,,,Wright,,Span 1,L,Wright,,Span 1,L,Wright,,Span 1,L
+407,West,4707,Lopez,,Sculpture,AV,Lopez,,Sculpture,AV,Lopez,,Sculpture,AV,Vacant,,,
+408,West,4708,Hill,,Econ,B,Hill,,Econ,B,Vacant,,,Hill,,Econ,B
+409,West,4709,Vacant,,,Young,,AP Psych,H,Young,,AP Psych,H,Young,,AP Psych,H
+410,West,4710,Green,,Yoga,P,Green,,Yoga,P,Vacant,,,Green,,Yoga,P
