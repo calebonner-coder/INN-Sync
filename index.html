@@ -27,7 +27,6 @@
 
         .ext-display { font-size: 1.5rem; font-weight: 400; font-style: italic; opacity: 0.8; }
 
-        /* Block Selector Pill Styling */
         .block-pill:checked + span { background-color: var(--navy) !important; color: white !important; }
         .dark .block-pill:checked + span { background-color: var(--maroon) !important; }
         
@@ -126,7 +125,6 @@
 
         window.onload = function() {
             loadSchedule();
-            // Initialize Block Selector in sidebar
             const bCont = document.getElementById('blockSelector');
             blocks.forEach(b => { 
                 bCont.innerHTML += `
@@ -246,7 +244,7 @@
                 container.innerHTML += `
                     <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 mb-2">
                         <div class="p-4 flex items-center justify-between font-bold text-[10px] tracking-widest bg-slate-50 dark:bg-slate-800/50">
-                            <span class="cursor-pointer flex-1 uppercase" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')">${w} Wing <span class="opacity-30 ml-2">▼</span></span>
+                            <span class="cursor-pointer flex-1 uppercase" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')">${w} <span class="opacity-30 ml-2">▼</span></span>
                             <input type="checkbox" checked onchange="toggleAllInWing('${w}', this.checked)" class="accent-[#6F263D] w-4 h-4">
                         </div>
                         <div class="p-1 space-y-0.5 bg-white dark:bg-slate-900/30 hidden">${roomHtml}</div>
