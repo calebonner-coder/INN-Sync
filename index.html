@@ -30,9 +30,16 @@
         .block-pill:checked + span { background-color: var(--navy) !important; color: white !important; }
         .dark .block-pill:checked + span { background-color: var(--maroon) !important; }
         
-        .search-input { width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; outline: none; border: 1px solid #e2e8f0; }
+        .search-input { width: 100%; padding: 12px; padding-right: 45px; border-radius: 10px; font-size: 14px; outline: none; border: 1px solid #e2e8f0; }
         .light .search-input { background: white; color: #0f172a; }
         .dark .search-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
+
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         .dept-icon { width: 26px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 9px; font-weight: 900; color: white; }
     </style>
@@ -54,9 +61,20 @@
             <button onclick="toggleDarkMode()" class="w-full py-2.5 px-4 rounded-lg border border-slate-300 text-[10px] font-black tracking-widest flex justify-between items-center uppercase">
                 <span>Theme</span> <span id="theme-icon">☀️</span>
             </button>
-            <div class="relative group">
-                <input type="text" id="globalSearch" placeholder="Search Teacher..." class="search-input" oninput="render()">
+
+            <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800">
+                <span class="text-[10px] font-black tracking-widest uppercase">Vacant Only</span>
+                <label class="switch">
+                    <input type="checkbox" id="vacancyToggle" onchange="render()">
+                    <span class="slider"></span>
+                </label>
             </div>
+
+            <div class="relative group">
+                <input type="text" id="globalSearch" placeholder="Search Teacher/Class..." class="search-input" oninput="render()">
+                <button onclick="clearSearch()" class="absolute right-3 top-3 text-[10px] font-black opacity-40 hover:opacity-100 uppercase tracking-tighter">Clear</button>
+            </div>
+            
             <button onclick="resetAllFilters()" class="w-full py-3 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transition">
                 Reset All Filters
             </button>
@@ -78,7 +96,6 @@
     <script>
         let schoolData = [];
         let visibleRooms = new Set();
-        // UPDATED: Defaulted logic to true
         let isDarkMode = true;
         const blocks = ["B1", "B2", "B3", "B4"];
 
@@ -141,14 +158,23 @@
             const grid = document.getElementById('roomGrid');
             const search = document.getElementById('globalSearch').value.toLowerCase();
             const activeBlocks = Array.from(document.querySelectorAll('.block-pill:checked')).map(c => c.value);
+            const showVacantOnly = document.getElementById('vacancyToggle').checked;
             grid.innerHTML = '';
 
             const filtered = schoolData.filter(r => {
                 if (!visibleRooms.has(r.id)) return false;
+                
+                // Vacancy Check
+                const statusList = activeBlocks.map(b => r.schedule[b].t.toLowerCase());
+                const currentIsVacant = statusList.every(t => t === "vacant" || t === "");
+                if (showVacantOnly && !currentIsVacant) return false;
+
+                // Search Check (Teacher, Co-Teacher, or Class)
                 if (search === "") return true;
                 return activeBlocks.some(b => 
                     r.schedule[b].t.toLowerCase().includes(search) || 
-                    (r.schedule[b].cot && r.schedule[b].cot.toLowerCase().includes(search))
+                    (r.schedule[b].cot && r.schedule[b].cot.toLowerCase().includes(search)) ||
+                    r.schedule[b].c.toLowerCase().includes(search)
                 );
             });
 
@@ -190,6 +216,8 @@
             });
         }
 
+        function clearSearch() { document.getElementById('globalSearch').value = ""; render(); }
+
         function buildSidebar() {
             const container = document.getElementById('wingAccordion');
             container.innerHTML = '';
@@ -211,9 +239,32 @@
                     </div>`;
             });
         }
-        function resetAllFilters() { visibleRooms = new Set(schoolData.map(r => r.id)); document.querySelectorAll('.block-pill').forEach(p => p.checked = true); document.querySelectorAll('#wingAccordion input[type="checkbox"]').forEach(c => (c.checked = true)); render(); }
-        function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.className = isDarkMode ? 'dark' : 'light'; document.getElementById('sidebar').className = `sidebar ${isDarkMode ? 'dark' : 'light'} p-6 flex flex-col`; document.getElementById('theme-icon').innerText = isDarkMode ? '☀️' : '🌙'; render(); }
-        function toggleAllInWing(wingName, isChecked) { schoolData.filter(r => r.wing === wingName).forEach(r => { isChecked ? visibleRooms.add(r.id) : visibleRooms.delete(r.id); if(document.getElementById(`check-${r.id}`)) document.getElementById(`check-${r.id}`).checked = isChecked; }); render(); }
+
+        function resetAllFilters() { 
+            visibleRooms = new Set(schoolData.map(r => r.id)); 
+            document.getElementById('globalSearch').value = "";
+            document.getElementById('vacancyToggle').checked = false;
+            document.querySelectorAll('.block-pill').forEach(p => p.checked = true); 
+            document.querySelectorAll('#wingAccordion input[type="checkbox"]').forEach(c => (c.checked = true)); 
+            render(); 
+        }
+
+        function toggleDarkMode() { 
+            isDarkMode = !isDarkMode; 
+            document.body.className = isDarkMode ? 'dark' : 'light'; 
+            document.getElementById('sidebar').className = `sidebar ${isDarkMode ? 'dark' : 'light'} p-6 flex flex-col`; 
+            document.getElementById('theme-icon').innerText = isDarkMode ? '☀️' : '🌙'; 
+            render(); 
+        }
+
+        function toggleAllInWing(wingName, isChecked) { 
+            schoolData.filter(r => r.wing === wingName).forEach(r => { 
+                isChecked ? visibleRooms.add(r.id) : visibleRooms.delete(r.id); 
+                if(document.getElementById(`check-${r.id}`)) document.getElementById(`check-${r.id}`).checked = isChecked; 
+            }); 
+            render(); 
+        }
+
         function updateVisibility(id, v) { v ? visibleRooms.add(id) : visibleRooms.delete(id); render(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('mobile-overlay').classList.toggle('hidden'); }
     </script>
